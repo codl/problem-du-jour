@@ -50,21 +50,21 @@ def get_tag():
 def clean_tag(tag):
     """
     >>> clean_tag("exchange-2016")
-    "exchange 2016"
+    'exchange 2016'
     >>> clean_tag("docker-compose")
-    "docker compose"
+    'docker compose'
     >>> clean_tag("apache2")
-    "apache 2"
+    'apache 2'
     """
 
     def maybe_separate_number(part):
         """
         >>> maybe_separate_number("abc123")
-        "abc 123"
+        'abc 123'
         >>> maybe_separate_number("abc")
-        "abc"
+        'abc'
         >>> maybe_separate_number("123")
-        "123"
+        '123'
         """
         version_chars = "0123456789."
 
