@@ -46,6 +46,30 @@ def get_tag():
 
     return clean_tag(tag)
 
+def maybe_separate_version(part):
+    """
+    >>> maybe_separate_version("abc123")
+    'abc 123'
+    >>> maybe_separate_version("abc")
+    'abc'
+    >>> maybe_separate_version("123")
+    '123'
+    """
+    version_chars = "0123456789."
+
+    trap = part[::-1]
+    # trap is part backwards lol
+    trap2 = ""
+    isversion = True;
+    for c in trap:
+        if isversion and c not in version_chars:
+            trap2 += " "
+            isversion = False
+        trap2 += c
+
+    part2 = trap2[::-1]
+
+    return part2.strip()
 
 def clean_tag(tag):
     """
@@ -57,34 +81,7 @@ def clean_tag(tag):
     'apache 2'
     """
 
-    def maybe_separate_number(part):
-        """
-        >>> maybe_separate_number("abc123")
-        'abc 123'
-        >>> maybe_separate_number("abc")
-        'abc'
-        >>> maybe_separate_number("123")
-        '123'
-        """
-        version_chars = "0123456789."
-
-        trap = part[::-1]
-        # trap is part backwards lol
-        trap2 = ""
-        isversion = True;
-        for c in trap:
-            if isversion and c not in version_chars:
-                trap2 += " "
-                isversion = False
-            trap2 += c
-
-        part2 = trap2[::-1]
-
-        return part2.strip()
-
-
-
-    parts = map(maybe_separate_number, tag.split("-"))
+    parts = map(maybe_separate_version, tag.split("-"))
 
     return " ".join(parts)
 
