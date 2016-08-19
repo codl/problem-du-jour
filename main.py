@@ -3,7 +3,8 @@ import time
 import random
 import logging
 import discord
-import env
+import os
+import json
 
 """
 a bot that points out things that are always problems lol
@@ -17,23 +18,30 @@ set the PDJ_TOKEN env var to your bot user token, run pip install -r requirement
 
 logging.basicConfig(level=logging.WARNING)
 
-tag_cache = None
-tag_cache_timestamp = 0;
+serverfault_cache = None
+serverfault_cache_timestamp = 0;
 
 def get_tag():
-    global tag_cache, tag_cache_timestamp
-    now = int(time.time())
-    if not tag_cache or now - tag_cache_timestamp > 60:
-        r = requests.get("https://api.stackexchange.com/2.2/tags", params={
-                'todate': now,
-                'fromdate': now - 60*60*24*30*6,
-                'site': 'serverfault'
-            })
-        tag_cache = j = r.json()
-        tag_cache_timestamp = now;
+    global serverfault_cache, serverfault_cache_timestamp
+
+    if(random.random() > 0.5):
+
+        now = int(time.time())
+        if not serverfault_cache or now - serverfault_cache_timestamp > 60:
+            r = requests.get("https://api.stackexchange.com/2.2/tags", params={
+                    'todate': now,
+                    'fromdate': now - 60*60*24*30*6,
+                    'site': 'serverfault'
+                })
+            serverfault_cache = j = r.json()
+            serverfault_cache_timestamp = now;
+        else:
+            j = serverfault_cache
+        tag = random.choice(j['items'])['name']
+
     else:
-        j = tag_cache
-    tag = random.choice(j['items'])['name']
+        computer_sciences = json.load(open("computer_sciences.json"))
+        tag = random.choice(computer_sciences["computer_sciences"]).lower()
 
 
     return clean_tag(tag)
