@@ -10,7 +10,7 @@ import json
 a bot that points out things that are always problems lol
 
 add my copy of it to your server with
-https://discordapp.com/oauth2/authorize?client_id=215898221610926090&scope=bot&permissions=3088
+https://discordapp.com/oauth2/authorize?client_id=215898221610926090&scope=bot&permissions=3072
 or replace client_id with yours to add yours
 
 set the PDJ_TOKEN env var to your bot user token, run pip install -r requirements.txt, then run main.py and you're good
